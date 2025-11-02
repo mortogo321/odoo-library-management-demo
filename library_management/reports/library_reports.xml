@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Book Report -->
+    <record id="action_report_library_book" model="ir.actions.report">
+        <field name="name">Book Catalog</field>
+        <field name="model">library.book</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library_management.report_library_book</field>
+        <field name="report_file">library_management.report_library_book</field>
+        <field name="binding_model_id" ref="model_library_book"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_library_book">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="book">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Book Information</h2>
+                        <div class="row mt32">
+                            <div class="col-8">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Title:</strong></td>
+                                        <td><span t-field="book.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Author:</strong></td>
+                                        <td><span t-field="book.author"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISBN:</strong></td>
+                                        <td><span t-field="book.isbn"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Publisher:</strong></td>
+                                        <td><span t-field="book.publisher"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Published Date:</strong></td>
+                                        <td><span t-field="book.published_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Pages:</strong></td>
+                                        <td><span t-field="book.pages"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Category:</strong></td>
+                                        <td><span t-field="book.category"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td><span t-field="book.state"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-4 text-center">
+                                <img t-if="book.qr_code" t-att-src="'data:image/png;base64,%s' % book.qr_code.decode('utf-8')" style="max-width: 200px;"/>
+                                <p><small>Scan QR Code</small></p>
+                            </div>
+                        </div>
+                        <div t-if="book.description" class="mt32">
+                            <h4>Description</h4>
+                            <p t-field="book.description"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Member Card Report -->
+    <record id="action_report_library_member_card" model="ir.actions.report">
+        <field name="name">Member Card</field>
+        <field name="model">library.member</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library_management.report_library_member_card</field>
+        <field name="report_file">library_management.report_library_member_card</field>
+        <field name="binding_model_id" ref="model_library_member"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_library_member_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="member">
+                <div class="page" style="page-break-after: always;">
+                    <div style="border: 2px solid #333; padding: 20px; margin: 50px; border-radius: 10px;">
+                        <h2 class="text-center">Library Member Card</h2>
+                        <div class="row mt32">
+                            <div class="col-7">
+                                <table class="table table-sm table-borderless">
+                                    <tr>
+                                        <td><strong>Member Number:</strong></td>
+                                        <td><span t-field="member.member_number" style="font-size: 18px; font-weight: bold;"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Name:</strong></td>
+                                        <td><span t-field="member.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Type:</strong></td>
+                                        <td><span t-field="member.member_type"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email:</strong></td>
+                                        <td><span t-field="member.email"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Phone:</strong></td>
+                                        <td><span t-field="member.phone"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Member Since:</strong></td>
+                                        <td><span t-field="member.join_date"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-5 text-center">
+                                <img t-if="member.qr_code" t-att-src="'data:image/png;base64,%s' % member.qr_code.decode('utf-8')" style="max-width: 150px;"/>
+                                <p><small>Member QR Code</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Borrowing Receipt Report -->
+    <record id="action_report_library_borrowing" model="ir.actions.report">
+        <field name="name">Borrowing Receipt</field>
+        <field name="model">library.borrowing</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library_management.report_library_borrowing</field>
+        <field name="report_file">library_management.report_library_borrowing</field>
+        <field name="binding_model_id" ref="model_library_borrowing"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_library_borrowing">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="borrowing">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Borrowing Receipt</h2>
+                        <p><strong>Reference:</strong> <span t-field="borrowing.name"/></p>
+
+                        <div class="row mt32">
+                            <div class="col-6">
+                                <h4>Member Information</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Member Number:</strong></td>
+                                        <td><span t-field="borrowing.member_id.member_number"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Name:</strong></td>
+                                        <td><span t-field="borrowing.member_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Email:</strong></td>
+                                        <td><span t-field="borrowing.member_id.email"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-6">
+                                <h4>Book Information</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Title:</strong></td>
+                                        <td><span t-field="borrowing.book_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Author:</strong></td>
+                                        <td><span t-field="borrowing.book_id.author"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>ISBN:</strong></td>
+                                        <td><span t-field="borrowing.book_id.isbn"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt32">
+                            <div class="col-12">
+                                <h4>Borrowing Details</h4>
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Borrow Date:</strong></td>
+                                        <td><span t-field="borrowing.borrow_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Due Date:</strong></td>
+                                        <td><span t-field="borrowing.due_date"/></td>
+                                    </tr>
+                                    <tr t-if="borrowing.return_date">
+                                        <td><strong>Return Date:</strong></td>
+                                        <td><span t-field="borrowing.return_date"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td><span t-field="borrowing.state"/></td>
+                                    </tr>
+                                    <tr t-if="borrowing.days_overdue > 0">
+                                        <td><strong>Days Overdue:</strong></td>
+                                        <td><span t-field="borrowing.days_overdue"/></td>
+                                    </tr>
+                                    <tr t-if="borrowing.fine_amount > 0">
+                                        <td><strong>Fine Amount:</strong></td>
+                                        <td>$<span t-field="borrowing.fine_amount"/></td>
+                                    </tr>
+                                    <tr t-if="borrowing.fine_paid">
+                                        <td><strong>Fine Status:</strong></td>
+                                        <td>Paid on <span t-field="borrowing.fine_payment_date"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div t-if="borrowing.notes" class="mt32">
+                            <h4>Notes</h4>
+                            <p t-field="borrowing.notes"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Overdue Books Report -->
+    <record id="action_report_overdue_books" model="ir.actions.report">
+        <field name="name">Overdue Books Report</field>
+        <field name="model">library.borrowing</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">library_management.report_overdue_books</field>
+        <field name="report_file">library_management.report_overdue_books</field>
+    </record>
+
+    <template id="report_overdue_books">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Overdue Books Report</h2>
+                    <p>Generated on: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></p>
+
+                    <table class="table table-sm mt32">
+                        <thead>
+                            <tr>
+                                <th>Reference</th>
+                                <th>Book</th>
+                                <th>Member</th>
+                                <th>Due Date</th>
+                                <th>Days Overdue</th>
+                                <th>Fine Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="borrowing">
+                                <tr>
+                                    <td><span t-field="borrowing.name"/></td>
+                                    <td><span t-field="borrowing.book_id.name"/></td>
+                                    <td><span t-field="borrowing.member_id.name"/></td>
+                                    <td><span t-field="borrowing.due_date"/></td>
+                                    <td><span t-field="borrowing.days_overdue"/></td>
+                                    <td>$<span t-field="borrowing.fine_amount"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

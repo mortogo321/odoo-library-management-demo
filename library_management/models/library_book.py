@@ -36,7 +36,9 @@ class LibraryBook(models.Model):
 
     # Relations
     borrowing_ids = fields.One2many('library.borrowing', 'book_id', string='Borrowing History')
+    reservation_ids = fields.One2many('library.reservation', 'book_id', string='Reservations')
     current_borrower_id = fields.Many2one('library.member', string='Current Borrower', compute='_compute_current_borrower', store=True)
+    pending_reservations_count = fields.Integer(string='Pending Reservations', compute='_compute_pending_reservations_count')
 
     @api.depends('id', 'isbn', 'name')
     def _compute_qr_code(self):
@@ -78,6 +80,11 @@ class LibraryBook(models.Model):
         for book in self:
             active_borrowing = book.borrowing_ids.filtered(lambda b: b.state == 'borrowed')
             book.current_borrower_id = active_borrowing[0].member_id if active_borrowing else False
+
+    @api.depends('reservation_ids.state')
+    def _compute_pending_reservations_count(self):
+        for book in self:
+            book.pending_reservations_count = len(book.reservation_ids.filtered(lambda r: r.state in ['pending', 'ready']))
 
     @api.constrains('pages')
     def _check_pages(self):

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Due Date Reminder Email Template -->
+    <record id="email_template_due_date_reminder" model="mail.template">
+        <field name="name">Library: Due Date Reminder</field>
+        <field name="model_id" ref="model_library_borrowing"/>
+        <field name="subject">Book Due Date Reminder - ${object.book_id.name}</field>
+        <field name="email_from">${(object.create_uid.email_formatted or user.email_formatted) | safe}</field>
+        <field name="email_to">${object.member_id.email | safe}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; background: #f4f4f4; padding: 20px;">
+        <tr>
+            <td style="background: #fff; padding: 30px; border-radius: 5px;">
+                <h2 style="color: #333; margin-bottom: 20px;">Book Due Date Reminder</h2>
+
+                <p>Dear ${object.member_id.name},</p>
+
+                <p>This is a friendly reminder that the following book is due in 2 days:</p>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Book Title:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Author:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.author}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Borrowed On:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${format_date(object.borrow_date)}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Due Date:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; color: #d9534f; font-weight: bold;">${format_date(object.due_date)}</td>
+                    </tr>
+                </table>
+
+                <p>Please return the book by the due date to avoid late fees ($${object.fine_per_day} per day).</p>
+
+                <p style="margin-top: 30px;">Best regards,<br/>Library Management System</p>
+            </td>
+        </tr>
+    </table>
+</div>
+        </field>
+    </record>
+
+    <!-- Overdue Book Email Template -->
+    <record id="email_template_overdue_book" model="mail.template">
+        <field name="name">Library: Overdue Book Notification</field>
+        <field name="model_id" ref="model_library_borrowing"/>
+        <field name="subject">OVERDUE: ${object.book_id.name} - Please Return</field>
+        <field name="email_from">${(object.create_uid.email_formatted or user.email_formatted) | safe}</field>
+        <field name="email_to">${object.member_id.email | safe}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; background: #f4f4f4; padding: 20px;">
+        <tr>
+            <td style="background: #fff; padding: 30px; border-radius: 5px; border-top: 4px solid #d9534f;">
+                <h2 style="color: #d9534f; margin-bottom: 20px;">⚠️ Overdue Book Notice</h2>
+
+                <p>Dear ${object.member_id.name},</p>
+
+                <p>The following book is now <strong>OVERDUE</strong>:</p>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Book Title:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Author:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.author}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Due Date:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; color: #d9534f;">${format_date(object.due_date)}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Days Overdue:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; color: #d9534f; font-weight: bold;">${object.days_overdue} days</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Current Fine:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; color: #d9534f; font-weight: bold;">$${object.fine_amount}</td>
+                    </tr>
+                </table>
+
+                <div style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0;">
+                    <p style="margin: 0;"><strong>Important:</strong> Please return this book as soon as possible. Late fees of $${object.fine_per_day} per day are accumulating.</p>
+                </div>
+
+                <p style="margin-top: 30px;">Best regards,<br/>Library Management System</p>
+            </td>
+        </tr>
+    </table>
+</div>
+        </field>
+    </record>
+
+    <!-- Reservation Ready Email Template -->
+    <record id="email_template_reservation_ready" model="mail.template">
+        <field name="name">Library: Reserved Book Ready for Pickup</field>
+        <field name="model_id" ref="model_library_reservation"/>
+        <field name="subject">Your Reserved Book is Ready - ${object.book_id.name}</field>
+        <field name="email_from">${(object.create_uid.email_formatted or user.email_formatted) | safe}</field>
+        <field name="email_to">${object.member_id.email | safe}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0; padding: 0; font-family: Arial, sans-serif;">
+    <table style="width: 100%; max-width: 600px; margin: 0 auto; background: #f4f4f4; padding: 20px;">
+        <tr>
+            <td style="background: #fff; padding: 30px; border-radius: 5px; border-top: 4px solid #5cb85c;">
+                <h2 style="color: #5cb85c; margin-bottom: 20px;">✓ Your Reserved Book is Ready!</h2>
+
+                <p>Dear ${object.member_id.name},</p>
+
+                <p>Good news! The book you reserved is now available for pickup:</p>
+
+                <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Reservation:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Book Title:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.name}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Author:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd;">${object.book_id.author}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px; background: #f8f8f8; border: 1px solid #ddd; font-weight: bold;">Pickup Deadline:</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; color: #d9534f; font-weight: bold;">${format_date(object.expiry_date)}</td>
+                    </tr>
+                </table>
+
+                <div style="background: #d9edf7; border-left: 4px solid #5bc0de; padding: 15px; margin: 20px 0;">
+                    <p style="margin: 0;"><strong>Please Note:</strong> This reservation will expire on ${format_date(object.expiry_date)}. Please pick up the book before this date.</p>
+                </div>
+
+                <p style="margin-top: 30px;">We look forward to seeing you soon!</p>
+
+                <p>Best regards,<br/>Library Management System</p>
+            </td>
+        </tr>
+    </table>
+</div>
+        </field>
+    </record>
+</odoo>

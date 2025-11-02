@@ -73,9 +73,29 @@ docker-compose down -v
 - Automatic overdue detection
 - Auto-generated borrowing references (BOR00001, BOR00002...)
 - Calculate borrowing duration
+- **Fine/Penalty System**: $1/day for overdue books
+- **Fine Payment Tracking**: Mark fines as paid
+
+### Reservation System
+- Reserve books currently borrowed by others
+- Auto-generated reservation numbers (RES00001, RES00002...)
+- 7-day reservation expiry
+- Automatic notification when ready for pickup
+- Convert reservation to borrowing seamlessly
+
+### Email Notifications
+- Due date reminders (2 days before)
+- Overdue book alerts with fine amounts
+- Reservation ready notifications
+
+### PDF Reports
+- Book catalog with QR codes
+- Member cards with QR codes
+- Borrowing receipts with fine details
+- Overdue books report
 
 ### Security
-- **Library User**: View books/members, create borrowings
+- **Library User**: View books/members, create borrowings and reservations
 - **Library Manager**: Full access to all features
 
 ## Testing the Module
@@ -108,26 +128,31 @@ docker-compose down -v
 - **Odoo**: Version 17.0
 - **PostgreSQL**: Version 15
 - **Docker**: Containerized setup
+- **Python Libraries**: qrcode, PIL
 
 ### Module Structure
 ```
 library_management/
-├── models/          # Python models (Book, Member, Borrowing)
+├── models/          # Python models (Book, Member, Borrowing, Reservation)
 ├── views/           # XML views (Forms, Trees, Search)
+├── reports/         # PDF report templates
 ├── security/        # Access rights and groups
-├── data/           # Demo data
+├── data/           # Demo data and email templates
 └── static/         # Module icon
 ```
 
 ### Key Odoo Concepts Demonstrated
-- **Models**: ORM, computed fields, constraints
-- **Views**: Tree, Form, Search with filters
-- **Actions**: Button actions, smart buttons
+- **Models**: ORM, computed fields, constraints, business logic
+- **Views**: Tree, Form, Search with filters and decorations
+- **Actions**: Button actions, smart buttons, stat buttons
 - **Security**: Group-based access control
-- **Sequences**: Auto-numbering
+- **Sequences**: Auto-numbering (3 different sequences)
 - **Relations**: One2many, Many2one
-- **Workflows**: State management
-- **Cron Jobs**: Scheduled tasks
+- **Workflows**: State management (multiple states)
+- **Cron Jobs**: 4 scheduled tasks for automation
+- **Email Templates**: HTML email templates with dynamic content
+- **PDF Reports**: QWeb reports with images and styling
+- **QR Codes**: Dynamic generation with computed fields
 
 ## Troubleshooting
 

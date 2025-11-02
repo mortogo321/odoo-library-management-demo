@@ -5,3 +5,5 @@ access_library_member_user,library.member.user,model_library_member,group_librar
 access_library_member_manager,library.member.manager,model_library_member,group_library_manager,1,1,1,1
 access_library_borrowing_user,library.borrowing.user,model_library_borrowing,group_library_user,1,1,1,0
 access_library_borrowing_manager,library.borrowing.manager,model_library_borrowing,group_library_manager,1,1,1,1
+access_library_reservation_user,library.reservation.user,model_library_reservation,group_library_user,1,1,1,0
+access_library_reservation_manager,library.reservation.manager,model_library_reservation,group_library_manager,1,1,1,1

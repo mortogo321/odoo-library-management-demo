@@ -33,6 +33,15 @@
             <field name="company_id" eval="False"/>
         </record>
 
+        <!-- Sequence for Reservation Reference -->
+        <record id="seq_library_reservation" model="ir.sequence">
+            <field name="name">Library Reservation</field>
+            <field name="code">library.reservation</field>
+            <field name="prefix">RES</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
         <!-- Scheduled Action for Overdue Books -->
         <record id="ir_cron_check_overdue_books" model="ir.cron">
             <field name="name">Library: Check Overdue Books</field>
@@ -41,6 +50,42 @@
             <field name="code">model._cron_check_overdue_books()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Scheduled Action for Due Date Reminders -->
+        <record id="ir_cron_send_due_date_reminders" model="ir.cron">
+            <field name="name">Library: Send Due Date Reminders</field>
+            <field name="model_id" ref="model_library_borrowing"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_send_due_date_reminders()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Scheduled Action for Expired Reservations -->
+        <record id="ir_cron_check_expired_reservations" model="ir.cron">
+            <field name="name">Library: Check Expired Reservations</field>
+            <field name="model_id" ref="model_library_reservation"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_expired_reservations()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Scheduled Action for Available Reserved Books -->
+        <record id="ir_cron_check_available_reserved_books" model="ir.cron">
+            <field name="name">Library: Check Available Reserved Books</field>
+            <field name="model_id" ref="model_library_reservation"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_check_available_reserved_books()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
             <field name="numbercall">-1</field>
             <field name="active" eval="True"/>
         </record>

@@ -13,6 +13,9 @@
                 <field name="due_date"/>
                 <field name="return_date"/>
                 <field name="days_borrowed"/>
+                <field name="days_overdue"/>
+                <field name="fine_amount"/>
+                <field name="fine_paid"/>
                 <field name="state"/>
                 <field name="is_overdue" invisible="1"/>
             </tree>
@@ -30,6 +33,8 @@
                             class="btn-primary" invisible="state != 'borrowed'"/>
                     <button name="action_mark_overdue" string="Mark Overdue" type="object"
                             class="btn-warning" invisible="state != 'borrowed'"/>
+                    <button name="action_pay_fine" string="Pay Fine" type="object"
+                            class="btn-success" invisible="fine_amount == 0 or fine_paid"/>
                     <field name="state" widget="statusbar" statusbar_visible="borrowed,returned"/>
                 </header>
                 <sheet>
@@ -37,6 +42,11 @@
                         <h1>
                             <field name="name" readonly="1"/>
                         </h1>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-warning" invisible="days_overdue == 0">
+                            <field name="days_overdue" widget="statinfo" string="Days Overdue"/>
+                        </button>
                     </div>
                     <group>
                         <group>
@@ -49,6 +59,16 @@
                             <field name="return_date" readonly="1"/>
                             <field name="days_borrowed"/>
                             <field name="is_overdue" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Fine/Penalty Information" invisible="fine_amount == 0">
+                        <group>
+                            <field name="fine_per_day"/>
+                            <field name="fine_amount" widget="monetary" options="{'currency_field': 'False'}"/>
+                        </group>
+                        <group>
+                            <field name="fine_paid"/>
+                            <field name="fine_payment_date" invisible="not fine_paid"/>
                         </group>
                     </group>
                     <group>

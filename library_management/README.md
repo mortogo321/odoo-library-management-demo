@@ -26,10 +26,36 @@ A comprehensive library management extension for Odoo that allows you to manage 
 - **Overdue Management**: Automatic overdue detection via scheduled task
 - **Borrowing References**: Auto-generated borrowing numbers (BOR00001, BOR00002, etc.)
 - **Days Borrowed Calculation**: Automatic calculation of borrowing duration
+- **Fine/Penalty System**: Automatic calculation of fines for overdue books ($1 per day default)
+- **Fine Payment Tracking**: Track fine payments with payment date
+
+### Reservation System
+- **Book Reservations**: Allow members to reserve books that are currently borrowed
+- **Auto-generated Reservation Numbers**: (RES00001, RES00002, etc.)
+- **Reservation Expiry**: Automatic expiry after 7 days
+- **Ready for Pickup**: Automatic notification when reserved book becomes available
+- **Complete Reservation**: Convert reservation to borrowing with one click
+
+### Email Notifications
+- **Due Date Reminders**: Automatic email 2 days before due date
+- **Overdue Notifications**: Email alerts for overdue books with fine amount
+- **Reservation Ready**: Email notification when reserved book is available
+
+### Reports & Analytics
+- **Book Catalog Report**: PDF report with book details and QR code
+- **Member Card**: Printable member card with QR code
+- **Borrowing Receipt**: Detailed borrowing receipt with fine information
+- **Overdue Books Report**: Comprehensive report of all overdue books with fines
 
 ### Security & Access Rights
-- **Library User**: Can view books and members, create borrowings
+- **Library User**: Can view books and members, create borrowings and reservations
 - **Library Manager**: Full access to all features (create, edit, delete)
+
+### Automated Tasks (Cron Jobs)
+- Daily check for overdue books
+- Daily due date reminder emails (2 days before)
+- Daily check for expired reservations
+- Hourly check for available reserved books
 
 ### Demo Data
 - 6 sample books across different categories
@@ -42,18 +68,22 @@ A comprehensive library management extension for Odoo that allows you to manage 
 - `library.book`: Books catalog
 - `library.member`: Library members
 - `library.borrowing`: Borrowing transactions
+- `library.reservation`: Book reservations
 
 ### Key Features Demonstrated
 - **ORM Operations**: CRUD operations, computed fields, constraints
-- **Workflows**: State management (available/borrowed/returned)
-- **Sequences**: Auto-numbering for members and borrowings
-- **Actions**: Button actions, smart buttons
+- **Workflows**: State management (available/borrowed/returned, pending/ready/completed)
+- **Sequences**: Auto-numbering for members, borrowings, and reservations
+- **Actions**: Button actions, smart buttons, wizard actions
 - **Views**: Tree, Form, Search views with filters and grouping
-- **Security**: Group-based access control
-- **Scheduled Actions**: Automatic overdue detection
+- **Security**: Group-based access control with user roles
+- **Scheduled Actions**: Multiple cron jobs for automation
 - **Relations**: One2many, Many2one relationships
-- **UI Features**: Status bars, decorations, smart buttons
+- **UI Features**: Status bars, decorations, smart buttons, stat buttons
 - **QR Code Integration**: Dynamic QR code generation using Python qrcode library
+- **Email Integration**: Automated email notifications using mail templates
+- **PDF Reports**: QWeb reports for various documents
+- **Business Logic**: Fine calculations, overdue detection, reservation expiry
 
 ## Module Structure
 
@@ -85,6 +115,23 @@ library_management/
 ## Requirements
 - Odoo 14.0, 15.0, 16.0, or 17.0
 - Base module (automatically installed with Odoo)
+- Mail module (automatically installed with Odoo)
+- Python qrcode library (install via pip: `pip install qrcode[pil]`)
+
+## Version History
+
+### Version 2.0
+- Added QR code generation for books and members
+- Implemented book reservation system
+- Added fine/penalty management for overdue books
+- Integrated email notifications
+- Created PDF reports (book catalog, member cards, borrowing receipts)
+- Added automated cron jobs for reminders and checks
+
+### Version 1.0
+- Initial release with basic library management
+- Books, members, and borrowing management
+- Basic overdue detection
 
 ## License
 LGPL-3

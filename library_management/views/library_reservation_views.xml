@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reservation Tree View -->
+    <record id="view_library_reservation_tree" model="ir.ui.view">
+        <field name="name">library.reservation.tree</field>
+        <field name="model">library.reservation</field>
+        <field name="arch" type="xml">
+            <tree string="Reservations" decoration-success="state=='completed'" decoration-danger="state=='expired'" decoration-warning="state=='ready'">
+                <field name="name"/>
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <field name="reservation_date"/>
+                <field name="expiry_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Reservation Form View -->
+    <record id="view_library_reservation_form" model="ir.ui.view">
+        <field name="name">library.reservation.form</field>
+        <field name="model">library.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Reservation">
+                <header>
+                    <button name="action_mark_ready" string="Mark Ready for Pickup" type="object"
+                            class="btn-success" invisible="state != 'pending'"/>
+                    <button name="action_complete" string="Complete (Create Borrowing)" type="object"
+                            class="btn-primary" invisible="state != 'ready'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-warning" invisible="state in ['completed', 'cancelled', 'expired']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,ready,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="book_id" options="{'no_create': True}"/>
+                            <field name="member_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="reservation_date"/>
+                            <field name="expiry_date"/>
+                            <field name="notification_sent" invisible="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Additional notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Reservation Search View -->
+    <record id="view_library_reservation_search" model="ir.ui.view">
+        <field name="name">library.reservation.search</field>
+        <field name="model">library.reservation</field>
+        <field name="arch" type="xml">
+            <search string="Search Reservations">
+                <field name="name"/>
+                <field name="book_id"/>
+                <field name="member_id"/>
+                <filter string="Pending" name="pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Ready" name="ready" domain="[('state', '=', 'ready')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                <filter string="Expired" name="expired" domain="[('state', '=', 'expired')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Member" name="member" context="{'group_by': 'member_id'}"/>
+                    <filter string="Book" name="book" context="{'group_by': 'book_id'}"/>
+                    <filter string="Status" name="state" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Reservation Action -->
+    <record id="action_library_reservation" model="ir.actions.act_window">
+        <field name="name">Reservations</field>
+        <field name="res_model">library.reservation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first reservation!
+            </p>
+            <p>
+                Allow members to reserve books that are currently borrowed.
+            </p>
+        </field>
+    </record>
+
+    <!-- Add Reservation to Menu -->
+    <menuitem id="menu_library_reservations"
+              name="Reservations"
+              parent="menu_library_root"
+              action="action_library_reservation"
+              sequence="40"/>
+</odoo>

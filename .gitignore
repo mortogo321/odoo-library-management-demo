@@ -1,0 +1,23 @@
+# Odoo
+*.pyc
+*.pyo
+__pycache__/
+*.log
+
+# Virtual environment
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker volumes
+.pg_data/
+.odoo_data/
+
+# OS
+.DS_Store
+Thumbs.db

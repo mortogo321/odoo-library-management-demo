@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_library_root"
+              name="Library"
+              web_icon="library_management,static/description/icon.png"
+              sequence="10"/>
+
+    <!-- Books Menu -->
+    <menuitem id="menu_library_books"
+              name="Books"
+              parent="menu_library_root"
+              action="action_library_book"
+              sequence="10"/>
+
+    <!-- Members Menu -->
+    <menuitem id="menu_library_members"
+              name="Members"
+              parent="menu_library_root"
+              action="action_library_member"
+              sequence="20"/>
+
+    <!-- Borrowings Menu -->
+    <menuitem id="menu_library_borrowings"
+              name="Borrowings"
+              parent="menu_library_root"
+              action="action_library_borrowing"
+              sequence="30"/>
+</odoo>

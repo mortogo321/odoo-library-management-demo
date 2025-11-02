@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Demo Books -->
+        <record id="demo_book_1" model="library.book">
+            <field name="name">The Great Gatsby</field>
+            <field name="author">F. Scott Fitzgerald</field>
+            <field name="isbn">978-0-7432-7356-5</field>
+            <field name="publisher">Scribner</field>
+            <field name="published_date">1925-04-10</field>
+            <field name="pages">180</field>
+            <field name="category">fiction</field>
+            <field name="state">available</field>
+            <field name="description">The story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan.</field>
+        </record>
+
+        <record id="demo_book_2" model="library.book">
+            <field name="name">To Kill a Mockingbird</field>
+            <field name="author">Harper Lee</field>
+            <field name="isbn">978-0-06-112008-4</field>
+            <field name="publisher">J.B. Lippincott &amp; Co.</field>
+            <field name="published_date">1960-07-11</field>
+            <field name="pages">324</field>
+            <field name="category">fiction</field>
+            <field name="state">available</field>
+            <field name="description">A gripping tale of racial inequality and childhood innocence in the American South.</field>
+        </record>
+
+        <record id="demo_book_3" model="library.book">
+            <field name="name">1984</field>
+            <field name="author">George Orwell</field>
+            <field name="isbn">978-0-452-28423-4</field>
+            <field name="publisher">Secker &amp; Warburg</field>
+            <field name="published_date">1949-06-08</field>
+            <field name="pages">328</field>
+            <field name="category">fiction</field>
+            <field name="state">borrowed</field>
+            <field name="description">A dystopian social science fiction novel and cautionary tale about totalitarianism.</field>
+        </record>
+
+        <record id="demo_book_4" model="library.book">
+            <field name="name">A Brief History of Time</field>
+            <field name="author">Stephen Hawking</field>
+            <field name="isbn">978-0-553-10953-5</field>
+            <field name="publisher">Bantam Books</field>
+            <field name="published_date">1988-04-01</field>
+            <field name="pages">256</field>
+            <field name="category">science</field>
+            <field name="state">available</field>
+            <field name="description">A landmark volume in science writing by one of the great minds of our time.</field>
+        </record>
+
+        <record id="demo_book_5" model="library.book">
+            <field name="name">The Art of Computer Programming</field>
+            <field name="author">Donald Knuth</field>
+            <field name="isbn">978-0-201-89683-1</field>
+            <field name="publisher">Addison-Wesley</field>
+            <field name="published_date">1968-01-01</field>
+            <field name="pages">652</field>
+            <field name="category">technology</field>
+            <field name="state">available</field>
+            <field name="description">Comprehensive monograph written by Donald Knuth that covers many kinds of programming algorithms.</field>
+        </record>
+
+        <record id="demo_book_6" model="library.book">
+            <field name="name">Sapiens: A Brief History of Humankind</field>
+            <field name="author">Yuval Noah Harari</field>
+            <field name="isbn">978-0-06-231609-7</field>
+            <field name="publisher">Harper</field>
+            <field name="published_date">2011-01-01</field>
+            <field name="pages">443</field>
+            <field name="category">history</field>
+            <field name="state">available</field>
+            <field name="description">From a renowned historian comes a groundbreaking narrative of humanity's creation and evolution.</field>
+        </record>
+
+        <!-- Demo Members -->
+        <record id="demo_member_1" model="library.member">
+            <field name="name">John Smith</field>
+            <field name="email">john.smith@example.com</field>
+            <field name="phone">+1-555-0101</field>
+            <field name="address">123 Main Street, Springfield, IL 62701</field>
+            <field name="member_type">student</field>
+            <field name="join_date">2024-01-15</field>
+            <field name="birth_date">2000-05-20</field>
+        </record>
+
+        <record id="demo_member_2" model="library.member">
+            <field name="name">Emily Johnson</field>
+            <field name="email">emily.j@example.com</field>
+            <field name="phone">+1-555-0102</field>
+            <field name="address">456 Oak Avenue, Springfield, IL 62702</field>
+            <field name="member_type">teacher</field>
+            <field name="join_date">2023-09-01</field>
+            <field name="birth_date">1985-08-15</field>
+        </record>
+
+        <record id="demo_member_3" model="library.member">
+            <field name="name">Michael Brown</field>
+            <field name="email">m.brown@example.com</field>
+            <field name="phone">+1-555-0103</field>
+            <field name="address">789 Elm Street, Springfield, IL 62703</field>
+            <field name="member_type">public</field>
+            <field name="join_date">2024-03-10</field>
+            <field name="birth_date">1992-12-03</field>
+        </record>
+
+        <!-- Demo Borrowings -->
+        <record id="demo_borrowing_1" model="library.borrowing">
+            <field name="book_id" ref="demo_book_3"/>
+            <field name="member_id" ref="demo_member_1"/>
+            <field name="borrow_date" eval="(DateTime.today() - timedelta(days=5)).strftime('%Y-%m-%d')"/>
+            <field name="due_date" eval="(DateTime.today() + timedelta(days=9)).strftime('%Y-%m-%d')"/>
+            <field name="state">borrowed</field>
+            <field name="notes">First borrowing for this member.</field>
+        </record>
+
+        <record id="demo_borrowing_2" model="library.borrowing">
+            <field name="book_id" ref="demo_book_1"/>
+            <field name="member_id" ref="demo_member_2"/>
+            <field name="borrow_date" eval="(DateTime.today() - timedelta(days=20)).strftime('%Y-%m-%d')"/>
+            <field name="due_date" eval="(DateTime.today() - timedelta(days=6)).strftime('%Y-%m-%d')"/>
+            <field name="return_date" eval="(DateTime.today() - timedelta(days=4)).strftime('%Y-%m-%d')"/>
+            <field name="state">returned</field>
+        </record>
+    </data>
+</odoo>
